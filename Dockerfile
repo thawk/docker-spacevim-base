@@ -18,7 +18,7 @@ RUN true \
  && ln -s $HOME/.SpaceVim $HOME/.config/nvim \
  && true
 
-ONBUILD true \
+ONBUILD RUN true \
  && git clone --depth 1 --shallow-submodules https://github.com/Shougo/dein.vim.git $HOME/.cache/vimfiles/repos/github.com/Shougo/dein.vim \
  && nvim --headless +'call dein#install()' +qall \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
