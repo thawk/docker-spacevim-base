@@ -18,7 +18,10 @@ RUN true \
  && ln -s $HOME/.SpaceVim $HOME/.config/nvim \
  && true
 
+ONBUILD COPY additional.toml $HOME/.SpaceVim.d/
+
 ONBUILD RUN true \
+ && cat $HOME/.SpaceVim.d/additional.toml >> $HOME/.SpaceVim.d/init.toml \
  && git clone --depth 1 --shallow-submodules https://github.com/Shougo/dein.vim.git $HOME/.cache/vimfiles/repos/github.com/Shougo/dein.vim \
  && nvim --headless +'call dein#install()' +qall \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \

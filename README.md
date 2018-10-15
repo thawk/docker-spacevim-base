@@ -6,13 +6,15 @@ https://hub.docker.com/r/thawk/spacevim
 
 Will disable all optional layers.
 
+Child containers can put additional configuration into additional.toml, that will be appended to init.toml before install.
+
 ## Usage
 
 ```sh
-$ docker run -it -v $(pwd):/src thawk/spacevim test.cpp
+$ docker run -it -v $(pwd):/src thawk/spacevim-base test.cpp
 ```
 
 ```sh
-alias dnvim='docker run -it -v $(pwd):/src thawk/spacevim "$@"'
+alias dnvim='docker run -it -v $(pwd):/src thawk/spacevim-base "$@"'
 ```
 
