@@ -1,4 +1,4 @@
-![https://microbadger.com/images/thawk/spacevim-base](https://images.microbadger.com/badges/image/thawk/spacevim-base.svg) ![https://microbadger.com/images/thawk/spacevim-base](https://images.microbadger.com/badges/commit/thawk/spacevim-base.svg) ![https://microbadger.com/images/thawk/spacevim-base](https://images.microbadger.com/badges/version/thawk/spacevim-base.svg)
+[![](https://images.microbadger.com/badges/image/thawk/spacevim-base.svg)](https://microbadger.com/images/thawk/spacevim-base) [![](https://images.microbadger.com/badges/commit/thawk/spacevim-base.svg)](https://microbadger.com/images/thawk/spacevim-base) [![](https://images.microbadger.com/badges/version/thawk/spacevim-base.svg)](https://microbadger.com/images/thawk/spacevim-base)
 
 A neovim with [SpaceVim](https://spacevim.org) and [my customized configuration](https://github.com/thawk/dotspacevim), withith all optional plugins disabled.
 
