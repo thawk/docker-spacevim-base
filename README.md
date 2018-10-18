@@ -2,11 +2,13 @@
 
 A neovim with [SpaceVim](https://spacevim.org) and [my customized configuration](https://github.com/thawk/dotspacevim), withith all optional plugins disabled.
 
-https://hub.docker.com/r/thawk/spacevim
+https://hub.docker.com/r/thawk/spacevim-base
+
+Based on: https://hub.docker.com/r/thawk/neovim
 
 Will disable all optional layers.
 
-Child containers can put additional configuration into additional.toml, that will be appended to init.toml before install.
+Child containers can put additional configuration into *additional.toml*, that will be appended to *init.toml* before install.
 
 ## Usage
 
