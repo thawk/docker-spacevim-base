@@ -13,10 +13,10 @@ Child containers can put additional configuration into *additional.toml*, that w
 ## Usage
 
 ```sh
-$ docker run -it -v $(pwd):/src thawk/spacevim-base test.cpp
+$ docker run -it --rm -v $(pwd):/src thawk/spacevim-base test.cpp
 ```
 
 ```sh
-alias dnvim='docker run -it -v $(pwd):/src thawk/spacevim-base "$@"'
+alias dnvim='docker run -it --rm -v $(pwd):/src thawk/spacevim-base "$@"'
 ```
 
