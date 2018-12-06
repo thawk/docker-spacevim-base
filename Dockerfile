@@ -30,6 +30,7 @@ ONBUILD RUN true \
  && cat $HOME/.SpaceVim.d/additional.toml >> $HOME/.SpaceVim.d/init.toml \
  && nvim --headless +'call dein#install()' +qall \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
+ && nvim --headless +qall \
  && true
 
 WORKDIR /src
