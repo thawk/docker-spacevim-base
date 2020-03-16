@@ -24,6 +24,12 @@ RUN true \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
  && true
 
+RUN true \
+ && mkdir -p $HOME/{.local,.cache} \
+ && chmod 777 $HOME/{.local,.cache} \
+ && chmod 666 $HOME/.viminfo \
+ && true
+
 ONBUILD COPY additional.toml $HOME/.SpaceVim.d/
 
 ONBUILD RUN true \
