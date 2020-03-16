@@ -32,6 +32,7 @@ ONBUILD RUN true \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
  && nvim --headless +qall \
  && mkdir -p $HOME/.local \
+ && chmod 777 $HOME \
  && chmod 777 -R $HOME/.config \
  && chmod 777 -R $HOME/.cache \
  && chmod 777 -R $HOME/.local \
