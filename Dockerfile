@@ -24,12 +24,6 @@ RUN true \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
  && true
 
-RUN true \
- && mkdir -p $HOME/{.local,.cache} \
- && chmod 777 $HOME/{.local,.cache} \
- && chmod 666 $HOME/.viminfo \
- && true
-
 ONBUILD COPY additional.toml $HOME/.SpaceVim.d/
 
 ONBUILD RUN true \
@@ -37,6 +31,10 @@ ONBUILD RUN true \
  && nvim --headless +'call dein#install()' +qall \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
  && nvim --headless +qall \
+ && mkdir -p $HOME/.local \
+ && chmod 777 -R $HOME/.config \
+ && chmod 777 -R $HOME/.local \
+ && chmod 666 $HOME/.viminfo \
  && true
 
 WORKDIR /src
