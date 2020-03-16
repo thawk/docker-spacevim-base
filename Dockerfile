@@ -33,6 +33,7 @@ ONBUILD RUN true \
  && nvim --headless +qall \
  && mkdir -p $HOME/.local \
  && chmod 777 -R $HOME/.config \
+ && chmod 777 -R $HOME/.cache \
  && chmod 777 -R $HOME/.local \
  && chmod 666 $HOME/.viminfo \
  && true
