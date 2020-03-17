@@ -28,7 +28,7 @@ ONBUILD COPY additional.toml $HOME/.SpaceVim.d/
 
 ONBUILD RUN true \
  && cat $HOME/.SpaceVim.d/additional.toml >> $HOME/.SpaceVim.d/init.toml \
- && nvim --headless +'call dein#install()' +qall \
+ && nvim --headless +'call dein#install()' +UpdateRemotePlugins +qall \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
  && nvim --headless +qall \
  && mkdir -p $HOME/.local \
@@ -42,4 +42,3 @@ ONBUILD RUN true \
 WORKDIR /src
 VOLUME /src
 
-ENTRYPOINT ["/usr/bin/nvim"]
