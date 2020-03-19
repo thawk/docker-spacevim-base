@@ -28,12 +28,14 @@ ONBUILD COPY additional.toml $HOME/.SpaceVim.d/
 ONBUILD RUN true \
  && umask 0000 \
  && cat $HOME/.SpaceVim.d/additional.toml >> $HOME/.SpaceVim.d/init.toml \
- && nvim --headless +'call dein#install()' +UpdateRemotePlugins +qall \
+ && nvim --headless +'call dein#install()' +qall \
+ && nvim --headless +UpdateRemotePlugins +qall \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
  && nvim --headless +qall \
  && mkdir -p $HOME/.local \
  && chmod 777 $HOME \
  && chmod 777 -R $HOME/{.config,.cache,.local} \
+ && chmod a+rw -R $HOME/.npm \
  && chmod 666 $HOME/.viminfo \
  && true
 
