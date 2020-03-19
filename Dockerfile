@@ -94,7 +94,7 @@ RUN true \
 
 ONBUILD COPY additional_pkg.txt $HOME/
 ONBUILD RUN true \
- && cat $HOME/additional_pkg.txt | yum install -y \
+ && cat $HOME/additional_pkg.txt | xargs yum install -y \
  && true
 
 ONBUILD COPY additional_vim.toml $HOME/
