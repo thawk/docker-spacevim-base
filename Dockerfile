@@ -100,7 +100,7 @@ ONBUILD RUN true \
 ONBUILD COPY additional_vim.toml $HOME/
 ONBUILD RUN true \
  && umask 0000 \
- && cat $HOME/.SpaceVim.d/additional_vim.toml >> $HOME/.SpaceVim.d/init.toml \
+ && cat $HOME/additional_vim.toml >> $HOME/.SpaceVim.d/init.toml \
  && nvim --headless +'call dein#install()' +qall \
  && nvim --headless +UpdateRemotePlugins +qall \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
