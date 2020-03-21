@@ -43,14 +43,14 @@ RUN pip2 install --upgrade pip \
  && pip3 install --upgrade pip \
  && pip2 install \
     pynvim \
+ && pip3 install \
+    msgpack \
+    pynvim \
     jedi \
     flake8 \
     flake8-docstrings \
     flake8-isort \
     flake8-quotes \
- && pip3 install \
-    msgpack \
-    pynvim \
  && true
 
 RUN true \
@@ -93,13 +93,20 @@ RUN true \
 
 ONBUILD COPY additional_pkg.txt $HOME/
 ONBUILD RUN true \
- && cat $HOME/additional_pkg.txt | xargs yum install -y \
+ && ([ -s $HOME/additional_pkt.txt ] && cat $HOME/additional_pkg.txt | xargs yum install -y) \
+ && true
+
+ONBUILD COPY additional_pip.txt $HOME/
+ONBUILD RUN true \
+ && ([ -s $HOME/additional_pip.txt ] && cat $HOME/additional_pip.txt | xargs pip3 install) \
  && true
 
 ONBUILD COPY additional_vim.toml $HOME/
+ONBUILD COPY SpaceVim.d $HOME/
 ONBUILD RUN true \
  && umask 0000 \
- && cat $HOME/additional_vim.toml >> $HOME/.SpaceVim.d/init.toml \
+ && ([ -s $HOME/additional_vim.txt ] && cat $HOME/additional_vim.toml >> $HOME/.SpaceVim.d/init.toml) \
+ && cp -a $HOME/SpaceVim.d/* $HOME/.SpaceVim.d/ \
  && $HOME/run_nvim.sh --headless +'call dein#install()' +qall \
  && $HOME/run_nvim.sh --headless +UpdateRemotePlugins +qall \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
