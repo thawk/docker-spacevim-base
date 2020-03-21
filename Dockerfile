@@ -72,12 +72,6 @@ RUN true \
  && find ./squashfs-root -type d | xargs chmod a+rx \
  && true
 
-COPY run_nvim.sh ${HOME}
-RUN true \
- && ln -s "${HOME}/squashfs-root/usr/bin/nvim" /usr/bin \
- && chmod a+x ${HOME}/run_nvim.sh \
- && true
-
 ENV PATH="${PATH}:${HOME}/node_modules/.bin"
 
 RUN true \
@@ -89,8 +83,12 @@ RUN true \
  && ln -s $HOME/.SpaceVim $HOME/.config/nvim \
  && sed -i -e '/begin optional layers/,/end optional layers/ d' $HOME/.SpaceVim.d/init.toml \
  && git clone --depth 1 https://github.com/Shougo/dein.vim.git $HOME/.cache/vimfiles/repos/github.com/Shougo/dein.vim \
- && nvim --headless +'call dein#install()' +qall \
- && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
+ && true
+
+COPY run_nvim.sh ${HOME}
+RUN true \
+ && ln -s "${HOME}/squashfs-root/usr/bin/nvim" /usr/bin \
+ && chmod a+x ${HOME}/run_nvim.sh \
  && true
 
 ONBUILD COPY additional_pkg.txt $HOME/
@@ -102,10 +100,10 @@ ONBUILD COPY additional_vim.toml $HOME/
 ONBUILD RUN true \
  && umask 0000 \
  && cat $HOME/additional_vim.toml >> $HOME/.SpaceVim.d/init.toml \
- && nvim --headless +'call dein#install()' +qall \
- && nvim --headless +UpdateRemotePlugins +qall \
+ && $(HOME)/run_nvim.sh --headless +'call dein#install()' +qall \
+ && $(HOME)/run_nvim.sh --headless +UpdateRemotePlugins +qall \
  && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
- && nvim --headless +qall \
+ && $(HOME)/run_nvim.sh --headless +qall \
  && mkdir -p $HOME/.local \
  && chmod 777 $HOME \
  && chmod 777 -R $HOME/{.config,.cache,.local} \
