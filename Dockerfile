@@ -78,8 +78,7 @@ RUN curl -fsSL https://codeload.github.com/rizsotto/Bear/tar.gz/"${BEAR_VERSION}
     && make -C "${BEAR_SRC}" install \
     && rm -rf "${BEAR_SRC}"
 
-# Clean Up
-RUN rm -rf /tmp/* /var/tmp/*
+#### Install neovim ####
 RUN true \
  && cd $HOME \
  && umask 0000 \
@@ -110,23 +109,23 @@ RUN true \
 
 ONBUILD COPY additional_pkg.txt $HOME/
 ONBUILD RUN true \
- && ([ -s $HOME/additional_pkt.txt ] && cat $HOME/additional_pkg.txt | xargs yum install -y) \
+ && cat $HOME/additional_pkg.txt | xargs --no-run-if-empty yum install -y \
  && true
 
 ONBUILD COPY additional_pip.txt $HOME/
 ONBUILD RUN true \
- && ([ -s $HOME/additional_pip.txt ] && cat $HOME/additional_pip.txt | xargs pip3 install) \
+ && cat $HOME/additional_pip.txt | xargs --no-run-if-empty pip3 install \
  && true
 
 ONBUILD COPY additional_vim.toml $HOME/
 ONBUILD COPY SpaceVim.d $HOME/
 ONBUILD RUN true \
  && umask 0000 \
- && ([ -s $HOME/additional_vim.txt ] && cat $HOME/additional_vim.toml >> $HOME/.SpaceVim.d/init.toml) \
+ && cat $HOME/additional_vim.toml >> $HOME/.SpaceVim.d/init.toml \
  && cp -a $HOME/SpaceVim.d/* $HOME/.SpaceVim.d/ \
  && $HOME/run_nvim.sh --headless +'call dein#install()' +qall \
  && $HOME/run_nvim.sh --headless +UpdateRemotePlugins +qall \
- && (find $HOME/.cache/vimfiles -type d -name ".git" | xargs rm -r) \
+ && find $HOME/.cache/vimfiles -type d -name ".git" | xargs --no-run-if-empty rm -r \
  && $HOME/run_nvim.sh --headless +qall \
  && mkdir -p $HOME/.local \
  && chmod 777 $HOME \
@@ -134,6 +133,9 @@ ONBUILD RUN true \
  && chmod a+rw -R $HOME/.npm \
  && chmod 666 $HOME/.viminfo \
  && true
+
+# Clean Up
+RUN rm -rf /tmp/* /var/tmp/*
 
 WORKDIR /src
 VOLUME /src
