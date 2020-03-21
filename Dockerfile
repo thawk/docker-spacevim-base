@@ -3,6 +3,9 @@ FROM centos:centos7
 ARG BUILD_DATE
 ARG VCS_REF
 
+ARG NEOVIM_VERSION=0.4.3
+ARG BEAR_VERSION=2.4.3
+
 LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url="https://github.com/thawk/docker-spacevim-base.git" \
       org.label-schema.vcs-ref=$VCS_REF \
@@ -62,18 +65,32 @@ RUN true \
     neovim \
  && true
 
+#### Install Bear to support C-family semantic completion ####
+ARG BEAR_SRC=${HOME}/Bear-${BEAR_VERSION}
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# See how to do an out of source build
+#   https://stackoverflow.com/a/20611964
+#   https://stackoverflow.com/a/24435795
+RUN curl -fsSL https://codeload.github.com/rizsotto/Bear/tar.gz/"${BEAR_VERSION}" | tar -xz -C "${HOME}" \
+    && cmake -B"${BEAR_SRC}" -H"${BEAR_SRC}" \
+    && make -C "${BEAR_SRC}" install \
+    && rm -rf "${BEAR_SRC}"
+
+# Clean Up
+RUN rm -rf /tmp/* /var/tmp/*
 RUN true \
  && cd $HOME \
  && umask 0000 \
- && (curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage > nvim.appimage) \
+ && (curl -L https://github.com/neovim/neovim/releases/download/v${NEOVIM_VERSION}/nvim.appimage > nvim.appimage) \
  && chmod a+x nvim.appimage \
  && ./nvim.appimage --appimage-extract \
  && rm nvim.appimage \
  && find ./squashfs-root -type d | xargs chmod a+rx \
  && true
 
-ENV PATH="${PATH}:${HOME}/node_modules/.bin"
-
+#### Clone SpaceVim configuration ####
 RUN true \
  && umask 0000 \
  && git clone --depth 1 https://github.com/SpaceVim/SpaceVim.git $HOME/.SpaceVim \
