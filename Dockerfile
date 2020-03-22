@@ -74,7 +74,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 #   https://stackoverflow.com/a/20611964
 #   https://stackoverflow.com/a/24435795
 RUN curl -fsSL https://codeload.github.com/rizsotto/Bear/tar.gz/"${BEAR_VERSION}" | tar -xz -C "${HOME}" \
-    && cmake -B"${BEAR_SRC}" -H"${BEAR_SRC}" \
+    && cmake3 -B"${BEAR_SRC}" -H"${BEAR_SRC}" \
     && make -C "${BEAR_SRC}" install \
     && rm -rf "${BEAR_SRC}"
 
