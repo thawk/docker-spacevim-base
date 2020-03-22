@@ -118,7 +118,7 @@ ONBUILD RUN true \
  && true
 
 ONBUILD COPY additional_vim.toml $HOME/
-ONBUILD COPY SpaceVim.d $HOME/
+ONBUILD COPY SpaceVim.d $HOME/SpaceVim.d
 ONBUILD RUN true \
  && umask 0000 \
  && cat $HOME/additional_vim.toml >> $HOME/.SpaceVim.d/init.toml \
