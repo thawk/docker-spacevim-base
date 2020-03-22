@@ -107,6 +107,8 @@ RUN true \
  && chmod a+x ${HOME}/run_nvim.sh \
  && true
 
+COPY bashrc ${HOME}/.bashrc
+
 ONBUILD COPY additional_pkg.txt $HOME/
 ONBUILD RUN true \
  && cat $HOME/additional_pkg.txt | xargs --no-run-if-empty yum install -y \
