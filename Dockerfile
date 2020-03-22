@@ -127,7 +127,6 @@ ONBUILD RUN true \
  && cp -a $HOME/SpaceVim.d/* $HOME/.SpaceVim.d/ \
  && $HOME/run_nvim.sh --headless +'call dein#install()' +qall \
  && $HOME/run_nvim.sh --headless +UpdateRemotePlugins +qall \
- && $HOME/run_nvim.sh --headless 'CocUpdateSync' +qall \
  && find $HOME/.cache/vimfiles -type d -name ".git" | xargs --no-run-if-empty rm -r \
  && $HOME/run_nvim.sh --headless +qall \
  && mkdir -p $HOME/.local \
