@@ -33,7 +33,7 @@ RUN true \
     libtool \
     autoconf \
     automake \
-    cmake \
+    cmake3 \
     gcc-c++ \
     the_silver_searcher \
     git \
