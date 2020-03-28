@@ -40,6 +40,13 @@ RUN true \
     subversion \
     man \
     wget \
+    which \
+ && true
+
+RUN true \
+ && yum -y install https://repo.ius.io/ius-release-el7.rpm \
+ && yum -y install \
+    tmux2 \
  && true
 
 RUN pip2 install --upgrade pip \

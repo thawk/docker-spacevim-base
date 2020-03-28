@@ -1,4 +1,4 @@
-export PS1="\[$(tput setaf 0)\]\[$(tput setab 4)\] \w \[$(tput sgr0)\]\[$(tput setaf 4)\]${X_SCLS:+\[$(tput setab 2)\]\[$(tput setaf 0)\] ${X_SCLS}\[$(tput sgr0)\]\[$(tput setaf 2)\]}\[$(tput sgr0)\] "
+export PS1="\[$(tput setaf 0)\]\[$(tput setab 4)\] \w \[$(tput sgr0)\]\[$(tput setaf 4)\]\[$(tput sgr0)\] "
 
 alias ll='ls -l'
 alias ls='ls -G'
