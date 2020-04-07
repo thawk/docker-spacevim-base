@@ -1,3 +1,6 @@
+source scl_source enable llvm-toolset-7
+export PATH=$PATH:$HOME/bin
+
 export PS1="\[$(tput setaf 0)\]\[$(tput setab 4)\] \w \[$(tput sgr0)\]\[$(tput setaf 4)\]\[$(tput sgr0)\] "
 
 alias ll='ls -l'

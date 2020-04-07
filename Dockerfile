@@ -149,6 +149,10 @@ ONBUILD RUN true \
 # Clean Up
 RUN rm -rf /tmp/* /var/tmp/*
 
+ENV XDG_CACHE_HOME=/myhome/.cache
+ENV XDG_CONFIG_HOME=/myhome/.config
+ENV XDG_DATA_HOME=/myhome/.local/share
+
 WORKDIR /src
 VOLUME /src
 
