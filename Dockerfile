@@ -104,7 +104,10 @@ RUN true \
  && rm -r $HOME/.SpaceVim/.git $HOME/.SpaceVim.d/.git \
  && mkdir -p $HOME/.config \
  && ln -s $HOME/.SpaceVim $HOME/.config/nvim \
- && sed -i -e '/begin optional layers/,/end optional layers/ d' $HOME/.SpaceVim.d/init.toml \
+ && sed -i \
+    -e '/begin optional layers/,/end optional layers/ d' \
+    -e '/^\([ \t]*\)\(checkinstall\)[ \t]*=.*$/s//\1\2 = 0/' \
+    $HOME/.SpaceVim.d/init.toml \
  && git clone --depth 1 https://github.com/Shougo/dein.vim.git $HOME/.cache/vimfiles/repos/github.com/Shougo/dein.vim \
  && true
 
