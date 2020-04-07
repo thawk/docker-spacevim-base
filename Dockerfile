@@ -5,6 +5,8 @@ ARG VCS_REF
 
 ARG NEOVIM_VERSION=0.4.3
 ARG BEAR_VERSION=2.4.3
+ARG FD_VERSION=7.5.0
+ARG FPP_VERSION=0.9.2
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url="https://github.com/thawk/docker-spacevim-base.git" \
@@ -41,6 +43,7 @@ RUN true \
     man \
     wget \
     which \
+    fasd \
  && true
 
 RUN true \
@@ -115,6 +118,24 @@ COPY run_nvim.sh ${HOME}
 RUN true \
  && ln -s "${HOME}/squashfs-root/usr/bin/nvim" /usr/bin \
  && chmod a+x ${HOME}/run_nvim.sh \
+ && true
+
+# install fd-find
+RUN true \
+ && mkdir $HOME/tmp/fd \
+ && (curl -L https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}/fd-v${FD_VERSION}-x86_64-unknown-linux-gnu.tar.gz | tar -C $HOME/tmp/fd --strip-components 1 -xv) \
+ && mv $HOME/tmp/fd/autocomplete/fd.bash-completion /usr/share/bash-completion/completions/fd \
+ && mv $HOME/tmp/fd/autocomplete/_fd /usr/share/zsh/site-functions/_fd \
+ && mv $HOME/tmp/fd/fd.1 /usr/share/man/man1/ \
+ && mv $HOME/tmp/fd/fd /usr/bin/ \
+ && rm -rf $HOME/tmp/fd \
+ && true
+
+# install Facebook PathPicker
+RUN true \
+ && mkdir $HOME/fpp \
+ && (curl -L https://github.com/facebook/PathPicker/archive/${FPP_VERSION}.tar.gz | tar -C $HOME/fpp --strip-components 1 -xv) \
+ && ln -s $HOME/fpp/fpp /usr/bin \
  && true
 
 COPY bashrc ${HOME}/.bashrc
