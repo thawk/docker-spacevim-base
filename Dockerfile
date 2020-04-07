@@ -17,13 +17,12 @@ ENV HOME=/myhome
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
-RUN  mkdir -p $HOME
-COPY viminfo $HOME/.viminfo
+RUN mkdir -p $HOME
 
 RUN yum install -y \
     https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     centos-release-scl-rh \
- && true
+ && yum clean all
 
 RUN true \
  && yum install -y \
@@ -44,13 +43,13 @@ RUN true \
     wget \
     which \
     fasd \
- && true
+ && yum clean all
 
 RUN true \
  && yum -y install https://repo.ius.io/ius-release-el7.rpm \
  && yum -y install \
     tmux2 \
- && true
+ && yum clean all
 
 RUN pip2 install --upgrade pip \
  && pip3 install --upgrade pip \
@@ -73,7 +72,7 @@ RUN true \
  && yum install -y nodejs yarn \
  && npm install -g \
     neovim \
- && true
+ && yum clean all
 
 #### Install Bear to support C-family semantic completion ####
 ARG BEAR_SRC=${HOME}/Bear-${BEAR_VERSION}
@@ -122,28 +121,31 @@ RUN true \
 
 # install fd-find
 RUN true \
- && mkdir $HOME/tmp/fd \
- && (curl -L https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}/fd-v${FD_VERSION}-x86_64-unknown-linux-gnu.tar.gz | tar -C $HOME/tmp/fd --strip-components 1 -xv) \
- && mv $HOME/tmp/fd/autocomplete/fd.bash-completion /usr/share/bash-completion/completions/fd \
- && mv $HOME/tmp/fd/autocomplete/_fd /usr/share/zsh/site-functions/_fd \
- && mv $HOME/tmp/fd/fd.1 /usr/share/man/man1/ \
- && mv $HOME/tmp/fd/fd /usr/bin/ \
- && rm -rf $HOME/tmp/fd \
+ && umask 0000 \
+ && mkdir -p $HOME/fd \
+ && (curl -L https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}/fd-v${FD_VERSION}-x86_64-unknown-linux-gnu.tar.gz | tar -C $HOME/fd --strip-components 1 -xz) \
+ && mv $HOME/fd/autocomplete/fd.bash-completion /usr/share/bash-completion/completions/fd \
+ && mv $HOME/fd/autocomplete/_fd /usr/share/zsh/site-functions/_fd \
+ && mv $HOME/fd/fd.1 /usr/share/man/man1/ \
+ && mv $HOME/fd/fd /usr/bin/ \
+ && rm -rf $HOME/fd \
  && true
 
 # install Facebook PathPicker
 RUN true \
- && mkdir $HOME/fpp \
- && (curl -L https://github.com/facebook/PathPicker/archive/${FPP_VERSION}.tar.gz | tar -C $HOME/fpp --strip-components 1 -xv) \
+ && umask 0000 \
+ && mkdir -p $HOME/fpp \
+ && (curl -L https://github.com/facebook/PathPicker/archive/${FPP_VERSION}.tar.gz | tar -C $HOME/fpp --strip-components 1 -xz) \
  && ln -s $HOME/fpp/fpp /usr/bin \
  && true
 
 COPY bashrc ${HOME}/.bashrc
+COPY viminfo $HOME/.viminfo
 
 ONBUILD COPY additional_pkg.txt $HOME/
 ONBUILD RUN true \
  && cat $HOME/additional_pkg.txt | xargs --no-run-if-empty yum install -y \
- && true
+ && yum clean all
 
 ONBUILD COPY additional_pip.txt $HOME/
 ONBUILD RUN true \
