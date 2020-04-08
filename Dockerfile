@@ -19,12 +19,12 @@ ENV LC_ALL=en_US.UTF-8
 
 RUN mkdir -p $HOME
 
+COPY wandisco-svn.repo /etc/yum.repos.d/wandisco-svn.repo
+
 RUN yum install -y \
     https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     centos-release-scl-rh \
- && yum clean all
-
-RUN true \
+    https://repo.ius.io/ius-release-el7.rpm \
  && yum install -y \
     python2-pip \
     python3 \
@@ -43,11 +43,6 @@ RUN true \
     wget \
     which \
     fasd \
- && yum clean all
-
-RUN true \
- && yum -y install https://repo.ius.io/ius-release-el7.rpm \
- && yum -y install \
     tmux2 \
  && yum clean all
 
