@@ -123,7 +123,7 @@ RUN true \
 RUN true \
  && umask 0000 \
  && mkdir -p $HOME/fd \
- && (curl -L https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}/fd-v${FD_VERSION}-x86_64-unknown-linux-gnu.tar.gz | tar -C $HOME/fd --strip-components 1 -xz) \
+ && (curl -L https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}/fd-v${FD_VERSION}-x86_64-unknown-linux-musl.tar.gz | tar -C $HOME/fd --strip-components 1 -xz) \
  && mv $HOME/fd/autocomplete/fd.bash-completion /usr/share/bash-completion/completions/fd \
  && mv $HOME/fd/autocomplete/_fd /usr/share/zsh/site-functions/_fd \
  && mv $HOME/fd/fd.1 /usr/share/man/man1/ \
@@ -175,6 +175,8 @@ RUN rm -rf /tmp/* /var/tmp/*
 ENV XDG_CACHE_HOME=/myhome/.cache
 ENV XDG_CONFIG_HOME=/myhome/.config
 ENV XDG_DATA_HOME=/myhome/.local/share
+ENV EDITOR=/usr/bin/nvim
+ENV SHELL=/usr/bin/bash
 
 WORKDIR /src
 VOLUME /src
