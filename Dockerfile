@@ -18,6 +18,7 @@ ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
 RUN mkdir -p $HOME
+RUN mkdir -p $HOME/localbin
 
 COPY wandisco-svn.repo /etc/yum.repos.d/wandisco-svn.repo
 
@@ -172,6 +173,8 @@ ENV XDG_CONFIG_HOME=/myhome/.config
 ENV XDG_DATA_HOME=/myhome/.local/share
 ENV EDITOR=/usr/bin/nvim
 ENV SHELL=/usr/bin/bash
+ENV PATH=$PATH:/myhome/bin
+ENV PATH=$PATH:/myhome/localbin
 
 WORKDIR /src
 VOLUME /src
